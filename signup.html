@@ -4,13 +4,60 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign Up</title>
+
+    <!-- Firebase SDKs -->
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-app.js";
+      import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-auth.js";
+      import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-database.js";
+
+      // Firebase configuration
+      const firebaseConfig = {
+        apiKey: "AIzaSyBZU3oUaCNjMVVTTwXBqaUH0XYY5M9K7z0",
+        authDomain: "avalis-9c595.firebaseapp.com",
+        projectId: "avalis-9c595",
+        storageBucket: "avalis-9c595.firebasestorage.app",
+        messagingSenderId: "1014604630131",
+        appId: "1:1014604630131:web:b4b9fc13163834ff7d4206",
+        measurementId: "G-Q7D9PP4KFH"
+      };
+
+      // Initialize Firebase
+      const app = initializeApp(firebaseConfig);
+      const auth = getAuth(app);
+      const database = getDatabase(app);
+
+      function signupUser(event) {
+        event.preventDefault();
+        const username = document.getElementById("username").value;
+        const password = document.getElementById("password").value;
+        const role = document.getElementById("role").value || 'player'; // Default role is 'player'
+
+        createUserWithEmailAndPassword(auth, username, password)
+          .then((userCredential) => {
+            const user = userCredential.user;
+            
+            // Save user data with selected role
+            set(ref(database, 'users/' + user.uid), {
+              username: username,
+              role: role
+            }).then(() => {
+              alert("Signup successful! You are now registered as " + role);
+              window.location.href = "login.html";
+            });
+          })
+          .catch((error) => {
+            alert(error.message);
+          });
+      }
+    </script>
 </head>
 <body>
     <!-- Header -->
     <div id="header-container"></div>
 
     <h2>Sign Up</h2>
-    <form id="signup-form">
+    <form id="signup-form" onsubmit="signupUser(event)">
         <label for="username">Username:</label>
         <input type="text" id="username" required>
 
@@ -33,23 +80,6 @@
             .then(data => {
                 document.getElementById("header-container").innerHTML = data;
             });
-
-        // Handle sign-up
-        document.getElementById("signup-form").addEventListener("submit", function(event) {
-            event.preventDefault();
-
-            let username = document.getElementById("username").value;
-            let password = document.getElementById("password").value;
-            let role = document.getElementById("role").value || 'player'; // Default to 'player'
-
-            if (localStorage.getItem(username)) {
-                alert("Username already exists!");
-            } else {
-                localStorage.setItem(username, JSON.stringify({ password: password, role: role }));
-                alert("Account created successfully! You can now log in.");
-                window.location.href = "login.html";
-            }
-        });
     </script>
 </body>
 </html>
