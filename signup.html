@@ -15,6 +15,7 @@
       const firebaseConfig = {
         apiKey: "AIzaSyBZU3oUaCNjMVVTTwXBqaUH0XYY5M9K7z0",
         authDomain: "avalis-9c595.firebaseapp.com",
+        databaseURL: "https://avalis-9c595-default-rtdb.firebaseio.com/",  // Now using the database URL
         projectId: "avalis-9c595",
         storageBucket: "avalis-9c595.firebasestorage.app",
         messagingSenderId: "1014604630131",
@@ -31,26 +32,30 @@
         event.preventDefault();
         const email = document.getElementById("email").value;
         const password = document.getElementById("password").value;
-        const role = "player"; // Default role is 'player'
+        const role = "player"; // Default role is "Player"
 
         createUserWithEmailAndPassword(auth, email, password)
           .then((userCredential) => {
             const user = userCredential.user;
-            
-            // Save user data with default role
+
+            // Save user data to Realtime Database
             set(ref(database, 'users/' + user.uid), {
               email: email,
               role: role
             }).then(() => {
-              alert("Signup successful! You are now registered as " + role);
+              alert("Signup successful! You are now registered as a Player.");
               window.location.href = "login.html";
+            }).catch((error) => {
+              alert("Error saving user data: " + error.message);
             });
+
           })
           .catch((error) => {
-            alert(error.message);
+            alert("Signup failed: " + error.message);
           });
       }
     </script>
+
     <style>
         body {
             font-family: Arial, sans-serif;
