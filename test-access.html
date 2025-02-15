@@ -6,7 +6,7 @@
     <title>Test Database Access</title>
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-app.js";
-        import { getAuth } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-auth.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-auth.js";
         import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-database.js";
 
         // Firebase configuration
@@ -30,31 +30,46 @@
         function testAccess() {
             const otherUserId = document.getElementById("userId").value;
             if (!otherUserId) {
-                alert("Please enter a User ID to test.");
+                alert("❌ Please enter a User ID to test.");
                 return;
             }
 
             console.log("🔍 Testing access to user:", otherUserId);
 
-            get(ref(database, "users/" + otherUserId)).then((snapshot) => {
-                if (snapshot.exists()) {
-                    console.log("🚨 ERROR: You should NOT be able to see this!", snapshot.val());
-                    alert("❌ SECURITY WARNING: You should not be able to access this data.");
-                } else {
-                    console.log("✅ Access denied as expected.");
-                    alert("✅ Test Passed: You cannot access this user's data.");
-                }
-            }).catch((error) => {
-                console.error("🔥 Firebase error:", error);
-                alert("Error: " + error.message);
-            });
+            get(ref(database, "users/" + otherUserId))
+                .then((snapshot) => {
+                    if (snapshot.exists()) {
+                        console.log("🚨 ERROR: You should NOT be able to see this!", snapshot.val());
+                        alert("❌ SECURITY WARNING: You should not be able to access this data.");
+                    } else {
+                        console.log("✅ Access denied as expected.");
+                        alert("✅ Test Passed: You cannot access this user's data.");
+                    }
+                })
+                .catch((error) => {
+                    console.error("🔥 Firebase error:", error);
+                    alert("Error: " + error.message);
+                });
         }
+
+        // Attach event listener when the DOM is loaded
+        document.addEventListener("DOMContentLoaded", () => {
+            console.log("✅ DOM Loaded. Adding event listener.");
+            const testButton = document.getElementById("testAccessButton");
+            if (testButton) {
+                testButton.addEventListener("click", testAccess);
+                console.log("✅ Test button event listener attached.");
+            } else {
+                console.error("❌ Test button not found.");
+            }
+        });
+
     </script>
 </head>
 <body>
     <h2>Test User Data Access</h2>
     <p>Enter another user's UID to check if you can access their data.</p>
     <input type="text" id="userId" placeholder="Enter another User ID">
-    <button onclick="testAccess()">Test Access</button>
+    <button id="testAccessButton">Test Access</button>
 </body>
 </html>
