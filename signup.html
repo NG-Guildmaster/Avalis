@@ -31,22 +31,22 @@
       function signupUser(event) {
         event.preventDefault();
         
+        console.log("✅ Signup function is running!");
+
         const email = document.getElementById("email").value;
         const password = document.getElementById("password").value;
         const role = "player"; // Default role is "Player"
 
-        console.log("Attempting sign-up...");
-        console.log("Email:", email);
-        console.log("Password:", password);
+        console.log("📧 Email:", email);
+        console.log("🔑 Password:", password);
 
         createUserWithEmailAndPassword(auth, email, password)
           .then((userCredential) => {
             const user = userCredential.user;
             console.log("✅ Firebase Auth Success:", user);
 
-            // Ensure database writes are working
-            const userRef = ref(database, 'users/' + user.uid);
-            set(userRef, {
+            // Save user data to Realtime Database
+            set(ref(database, 'users/' + user.uid), {
               email: email,
               role: role
             }).then(() => {
@@ -64,6 +64,17 @@
             alert("Signup failed: " + error.message);
           });
       }
+
+      document.addEventListener("DOMContentLoaded", () => {
+        console.log("✅ DOM is fully loaded!");
+        const form = document.getElementById("signup-form");
+        if (form) {
+          console.log("✅ Signup form found!");
+          form.addEventListener("submit", signupUser);
+        } else {
+          console.error("❌ Signup form not found!");
+        }
+      });
     </script>
 
     <style>
@@ -100,7 +111,7 @@
 
     <div class="container">
         <h2>Sign Up</h2>
-        <form id="signup-form" onsubmit="signupUser(event)">
+        <form id="signup-form">
             <label for="email">Email:</label>
             <input type="email" id="email" required>
 
