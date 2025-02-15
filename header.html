@@ -59,63 +59,42 @@
 
     const auth = getAuth();
 
-    function updateUI(user) {
+    document.addEventListener("DOMContentLoaded", () => {
+        console.log("✅ DOM fully loaded. Checking authentication state...");
+
+        // Ensure elements exist before trying to modify them
         const loginButton = document.getElementById("loginButton");
         const accountDropdown = document.getElementById("accountDropdown");
         const dmLink = document.getElementById("dmLink");
-
-        if (user) {
-            const userRole = localStorage.getItem("userRole"); // Retrieve stored role
-            console.log("✅ User is logged in. Role:", userRole);
-
-            // Hide login button, show account dropdown
-            loginButton.style.display = "none";
-            accountDropdown.style.display = "inline-block";
-
-            if (userRole === "dungeon-master") {
-                dmLink.style.display = "inline"; // Show DM Dashboard
-            } else {
-                dmLink.style.display = "none"; // Hide DM Dashboard for regular players
-            }
-        } else {
-            console.log("❌ No user detected. Showing login button.");
-            loginButton.style.display = "inline";
-            accountDropdown.style.display = "none";
-            dmLink.style.display = "none";
-        }
-    }
-
-    // Ensure DOM is loaded before checking auth state
-    document.addEventListener("DOMContentLoaded", () => {
-        console.log("✅ DOM fully loaded. Checking auth state...");
-        
-        onAuthStateChanged(auth, (user) => {
-            if (user) {
-                console.log("✅ AuthStateChanged: User is logged in", user);
-                updateUI(user);
-            } else {
-                console.log("❌ AuthStateChanged: No user detected.");
-                updateUI(null);
-            }
-        });
-    });
-
-    // Logout function
-    document.addEventListener("DOMContentLoaded", () => {
         const logoutButton = document.getElementById("logoutButton");
-        if (logoutButton) {
-            logoutButton.addEventListener("click", () => {
-                signOut(auth).then(() => {
-                    console.log("✅ User logged out.");
-                    localStorage.removeItem("userRole");
-                    localStorage.removeItem("userEmail");
-                    alert("Logout successful!");
-                    window.location.href = "login.html";
-                }).catch((error) => {
-                    console.error("❌ Logout error:", error);
-                    alert("Logout failed: " + error.message);
-                });
-            });
+
+        if (!loginButton || !accountDropdown || !dmLink || !logoutButton) {
+            console.error("❌ UI elements not found! Script execution failed.");
+            return;
         }
-    });
-</script>
+
+        function updateUI(user) {
+            if (user) {
+                const userRole = localStorage.getItem("userRole") || "player"; // Default to player
+                console.log("✅ User detected. Role:", userRole);
+
+                loginButton.style.display = "none"; // Hide login button
+                accountDropdown.style.display = "inline-block"; // Show My Account dropdown
+
+                if (userRole === "dungeon-master") {
+                    dmLink.style.display = "inline"; // Show DM Dashboard
+                } else {
+                    dmLink.style.display = "none"; // Hide DM Dashboard for regular players
+                }
+            } else {
+                console.log("❌ No user detected. Resetting UI.");
+                loginButton.style.display = "inline";
+                accountDropdown.style.display = "none";
+                dmLink.style.display = "none";
+            }
+        }
+
+        // Monitor authentication state changes
+        onAuthStateChanged(auth, (user) => {
+            console.log("🔄 Auth state changed. Checking user...");
+            updateUI(user
