@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Avalis</title>
 
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="favicon.png">
+
     <!-- Firebase SDKs -->
     <script type="module">
       import { initializeApp } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-app.js";
@@ -41,28 +44,31 @@
             padding: 0;
         }
 
-        /* Header - Now Full Width */
+        /* Header - Full Width */
         #header-container {
             width: 100%;
         }
 
-        /* Title Section - Properly Positioned */
+        /* Title Section - Now Properly Sized & Positioned */
         .title-container {
             background-color: #123456; /* Dark Blue */
             border-radius: 40px;
-            padding: 20px 40px;
+            padding: 15px 40px;
             display: inline-block;
             position: absolute;
             top: 50px;
             left: 50px;
+            max-width: 450px; /* Prevents stretching */
+            text-align: center;
         }
 
         .title {
-            font-size: 3em;
+            font-size: 2.5em; /* Adjusted size */
             font-weight: bold;
             color: gold;
             font-family: 'Trebuchet MS', sans-serif;
             margin: 0;
+            white-space: nowrap; /* Prevents text from wrapping */
         }
 
         /* Main Content Layout */
@@ -165,7 +171,7 @@
     <!-- Header -->
     <div id="header-container"></div>
 
-    <!-- Title Section (Now Correctly Positioned & Inside Background) -->
+    <!-- Title Section (Now Properly Positioned & Inside Background) -->
     <div class="title-container">
         <h1 class="title">Welcome to Avalis</h1>
     </div>
