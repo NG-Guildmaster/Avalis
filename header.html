@@ -11,7 +11,7 @@
         </div>
     </div>
 
-    <!-- DM Dashboard (Hidden by Default) -->
+    <!-- DM Dashboard (Only Visible for DMs) -->
     <a href="dm-dashboard.html" id="dmLink" style="display: none;">DM Dashboard</a>
 </nav>
 
@@ -80,9 +80,10 @@
             if (user) {
                 const userRole = localStorage.getItem("userRole") || "player";
                 console.log("✅ User detected. Role:", userRole);
-
-                loginButton.style.display = "none"; // Hide login button
-                logoutButton.style.display = "block"; // Show logout option
+                
+                // Hide login button, show logout button
+                loginButton.style.display = "none";
+                logoutButton.style.display = "block";
 
                 if (userRole === "dungeon-master") {
                     dmLink.style.display = "inline"; // Show DM Dashboard
@@ -90,15 +91,15 @@
                     dmLink.style.display = "none"; // Hide DM Dashboard for regular players
                 }
             } else {
-                console.log("❌ No user detected.");
-                loginButton.style.display = "inline"; // Show login button
-                logoutButton.style.display = "none"; // Hide logout option
-                dmLink.style.display = "none"; // Hide DM Dashboard
+                console.log("❌ No user detected. Resetting UI.");
+                loginButton.style.display = "inline";
+                logoutButton.style.display = "none";
+                dmLink.style.display = "none";
             }
         }
 
-        // Monitor authentication state changes
-        onAuthStateChanged(auth, (user) => {
+        // Ensure UI updates immediately when the page loads
+        auth.onAuthStateChanged((user) => {
             console.log("🔄 Auth state changed. Checking user...");
             updateUI(user);
         });
@@ -124,5 +125,9 @@
                 alert("Logout failed: " + error.message);
             });
         });
+
+        // Debugging: Log auth state
+        console.log("🛠 Checking initial auth state...");
+        console.log("Auth current user:", auth.currentUser);
     });
 </script>
