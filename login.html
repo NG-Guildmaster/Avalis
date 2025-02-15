@@ -5,12 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
     <script type="module">
-        // Import Firebase
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-app.js";
         import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-auth.js";
         import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-database.js";
 
-        // Firebase configuration
         const firebaseConfig = {
             apiKey: "AIzaSyBZU3oUaCNjMVVTTwXBqaUH0XYY5M9K7z0",
             authDomain: "avalis-9c595.firebaseapp.com",
@@ -22,7 +20,6 @@
             measurementId: "G-Q7D9PP4KFH"
         };
 
-        // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const database = getDatabase(app);
@@ -33,57 +30,37 @@
             const email = document.getElementById("email").value;
             const password = document.getElementById("password").value;
 
-            console.log("🔑 Attempting login with:", email);
-
             signInWithEmailAndPassword(auth, email, password)
                 .then((userCredential) => {
                     const user = userCredential.user;
-                    console.log("✅ Login successful:", user);
-
-                    // Get user's role from database
                     const userRef = ref(database, "users/" + user.uid);
+
                     get(userRef).then((snapshot) => {
                         if (snapshot.exists()) {
                             const userData = snapshot.val();
-                            console.log("📌 User role:", userData.role);
-
-                            // Store role in localStorage for role-based access
                             localStorage.setItem("userRole", userData.role);
-                            localStorage.setItem("userEmail", user.email);
+                            alert("Login successful!");
 
-                            alert("Login successful! Redirecting...");
-
-                            // Redirect based on role
                             if (userData.role === "dungeon-master") {
-                                window.location.href = "dm-dashboard.html"; // Redirect DMs to their dashboard
+                                window.location.href = "dm-dashboard.html";
                             } else {
-                                window.location.href = "index.html"; // Redirect Players to homepage
+                                window.location.href = "index.html";
                             }
                         } else {
-                            console.error("❌ No user data found in database!");
-                            alert("Login failed: No user data found.");
+                            alert("User data not found!");
                         }
                     }).catch((error) => {
-                        console.error("❌ Error retrieving user data:", error);
                         alert("Error retrieving user data.");
                     });
 
                 })
                 .catch((error) => {
-                    console.error("❌ Login failed:", error);
                     alert("Login failed: " + error.message);
                 });
         }
 
         document.addEventListener("DOMContentLoaded", () => {
-            console.log("✅ DOM Loaded. Adding event listener.");
-            const form = document.getElementById("login-form");
-            if (form) {
-                form.addEventListener("submit", loginUser);
-                console.log("✅ Login form event listener attached.");
-            } else {
-                console.error("❌ Login form not found.");
-            }
+            document.getElementById("login-form").addEventListener("submit", loginUser);
         });
     </script>
     <style>
@@ -115,9 +92,6 @@
     </style>
 </head>
 <body>
-    <!-- Header -->
-    <div id="header-container"></div>
-
     <div class="container">
         <h2>Login</h2>
         <form id="login-form">
@@ -129,15 +103,7 @@
 
             <button type="submit">Login</button>
         </form>
+        <p>Don't have an account? <a href="signup.html"><button>Sign Up</button></a></p>
     </div>
-
-    <script>
-        // Load the header dynamically
-        fetch("header.html")
-            .then(response => response.text())
-            .then(data => {
-                document.getElementById("header-container").innerHTML = data;
-            });
-    </script>
 </body>
 </html>
