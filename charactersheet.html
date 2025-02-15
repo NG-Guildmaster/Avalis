@@ -75,6 +75,16 @@
             <label for="attack">Attack</label>
             <input type="number" id="attack" name="attack" placeholder="Enter your Attack bonus" required>
 
+            <h3>Inventory</h3>
+            <label for="items">Select an Item</label>
+            <select id="items"></select>
+            <p><strong>Item Details:</strong> <span id="itemDetails">None</span></p>
+
+            <h3>Active Quest</h3>
+            <label for="quests">Select a Quest</label>
+            <select id="quests"></select>
+            <p><strong>Quest Details:</strong> <span id="questDetails">None</span></p>
+
             <button type="button" id="saveBtn">Save Character</button>
         </form>
 
@@ -83,40 +93,70 @@
         <p><strong>Class:</strong> <span id="savedClass">None</span></p>
         <p><strong>HP:</strong> <span id="savedHP">None</span></p>
         <p><strong>Attack:</strong> <span id="savedAttack">None</span></p>
+        <p><strong>Saved Item:</strong> <span id="savedItem">None</span></p>
+        <p><strong>Saved Quest:</strong> <span id="savedQuest">None</span></p>
     </div>
 
     <script>
         document.getElementById("saveBtn").addEventListener("click", function(event) {
-            event.preventDefault(); // Prevents form submission
+            event.preventDefault();
 
             const name = document.getElementById("name").value;
             const charClass = document.getElementById("class").value;
             const hp = document.getElementById("hp").value;
             const attack = document.getElementById("attack").value;
+            const selectedItem = document.getElementById("items").value;
+            const selectedQuest = document.getElementById("quests").value;
 
-            // Save to local storage
             localStorage.setItem("characterName", name);
             localStorage.setItem("characterClass", charClass);
             localStorage.setItem("characterHP", hp);
             localStorage.setItem("characterAttack", attack);
+            localStorage.setItem("selectedItem", selectedItem);
+            localStorage.setItem("selectedQuest", selectedQuest);
 
-            // Display saved data
             document.getElementById("savedName").innerText = name;
             document.getElementById("savedClass").innerText = charClass;
             document.getElementById("savedHP").innerText = hp;
             document.getElementById("savedAttack").innerText = attack;
+            document.getElementById("savedItem").innerText = selectedItem;
+            document.getElementById("savedQuest").innerText = selectedQuest;
         });
 
-        // Load saved character when the page loads
         window.onload = function() {
             if (localStorage.getItem("characterName")) {
                 document.getElementById("savedName").innerText = localStorage.getItem("characterName");
                 document.getElementById("savedClass").innerText = localStorage.getItem("characterClass");
                 document.getElementById("savedHP").innerText = localStorage.getItem("characterHP");
                 document.getElementById("savedAttack").innerText = localStorage.getItem("characterAttack");
+                document.getElementById("savedItem").innerText = localStorage.getItem("selectedItem");
+                document.getElementById("savedQuest").innerText = localStorage.getItem("selectedQuest");
             }
-        }
-    </script>
 
+            fetch("items.json")
+                .then(response => response.json())
+                .then(data => {
+                    let itemsDropdown = document.getElementById("items");
+                    data.items.forEach(item => {
+                        let option = document.createElement("option");
+                        option.value = item.name;
+                        option.textContent = item.name;
+                        itemsDropdown.appendChild(option);
+                    });
+                });
+
+            fetch("quests.json")
+                .then(response => response.json())
+                .then(data => {
+                    let questsDropdown = document.getElementById("quests");
+                    data.quests.forEach(quest => {
+                        let option = document.createElement("option");
+                        option.value = quest.name;
+                        option.textContent = quest.name;
+                        questsDropdown.appendChild(option);
+                    });
+                });
+        };
+    </script>
 </body>
 </html>
