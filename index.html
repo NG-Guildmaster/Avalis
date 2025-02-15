@@ -26,10 +26,6 @@
       const app = initializeApp(firebaseConfig);
       const auth = getAuth(app);
       const database = getDatabase(app);
-
-      // Expose Firebase globally for debugging
-      window.firebaseAuth = auth;
-      window.firebaseDatabase = database;
     </script>
 
     <style>
@@ -46,40 +42,41 @@
             width: 100%;
         }
 
-        /* Title Section - Now Properly Sized & Centered */
+        /* Title Section */
         .title-container {
             background-color: #123456; /* Dark Blue */
             border-radius: 40px;
             padding: 15px 40px;
             display: flex;
-            align-items: center; /* Vertically centers the text */
-            justify-content: center; /* Centers text horizontally */
+            align-items: center;
+            justify-content: center;
             position: absolute;
             top: 60px;
             left: 20px;
-            width: fit-content; /* Only as wide as needed */
-            min-width: 200px; /* Prevents shrinking */
-            max-width: 400px; /* Prevents stretching */
-            height: 70px; /* Ensures background is properly sized */
+            width: fit-content;
+            min-width: 200px;
+            max-width: 400px;
+            height: 70px;
         }
 
-        /* Title Text - Ensures Proper Centering */
         .title {
             font-size: 2.5em;
             font-weight: bold;
             color: gold;
             font-family: 'Trebuchet MS', sans-serif;
             margin: 0;
-            white-space: nowrap; /* Prevents text from wrapping */
+            white-space: nowrap;
         }
 
         /* Main Content Layout */
         .main-content {
             display: flex;
             justify-content: space-between;
+            align-items: flex-start;
             width: 90%;
             max-width: 1200px;
             margin: 150px auto 0 auto;
+            gap: 20px; /* Space between sections */
         }
 
         .intro {
@@ -88,6 +85,7 @@
             padding: 30px;
             border-radius: 10px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            text-align: left;
         }
 
         .booking {
@@ -96,6 +94,7 @@
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            text-align: center;
         }
 
         .booking iframe {
@@ -149,7 +148,7 @@
     <!-- Header -->
     <div id="header-container"></div>
 
-    <!-- Title Section (Now Properly Positioned & Inside Background) -->
+    <!-- Title Section -->
     <div class="title-container">
         <h1 class="title">Welcome to Avalis</h1>
     </div>
@@ -158,13 +157,8 @@
     <div class="main-content">
         <!-- Left Panel: About Avalis -->
         <div class="intro">
-            <!-- Main Content (Side Panels) -->
-    <div class="main-content">
-        <!-- Left Panel: About Avalis -->
-        <div class="intro">
-            <p>
-                Welcome to Avalis! Avalis is a MMO RPG themed Dungeons and Dragons game.
-            </p>
+            <h2>About Avalis</h2>
+            <p>Welcome to Avalis! Avalis is a MMO RPG themed Dungeons and Dragons game.</p>
             <p>
                 Avalis is a land steeped in legend, where the echoes of ancient heroes and the whispers of arcane power intertwine with the fabric of reality. A world shaped by the ambitions of mortals and the will of the divine, Avalis is as vast as it is mysterious—a place where towering cities and sprawling wilds coexist with secrets waiting to be unearthed.
             </p>
@@ -201,22 +195,13 @@
                 document.getElementById("header-container").innerHTML = data;
             });
 
-        // Load the footer dynamically with error handling
+        // Load the footer dynamically
         fetch("footer.html")
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error("Footer not found.");
-                }
-                return response.text();
-            })
+            .then(response => response.text())
             .then(data => {
                 document.getElementById("footer-container").innerHTML = data;
             })
             .catch(error => console.error("Footer load error:", error));
-
-        // Debugging: Check Firebase is Loaded
-        console.log("🔍 Firebase Auth:", window.firebaseAuth);
-        console.log("🔍 Firebase Database:", window.firebaseDatabase);
     </script>
 </body>
 </html>
