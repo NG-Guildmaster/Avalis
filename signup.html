@@ -3,64 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign Up - Avalis</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #a3c9f1;
-            text-align: center;
-        }
-        .container {
-            max-width: 400px;
-            margin: 50px auto;
-            padding: 20px;
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-        input, select, button {
-            width: 100%;
-            margin: 10px 0;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-        button {
-            background-color: #1a73e8;
-            color: white;
-            cursor: pointer;
-        }
-    </style>
+    <title>Sign Up</title>
 </head>
 <body>
-    <div class="container">
-        <h2>Sign Up</h2>
-        <input type="text" id="username" placeholder="Enter username" required>
-        <input type="password" id="password" placeholder="Enter password" required>
+    <!-- Header -->
+    <div id="header-container"></div>
+
+    <h2>Sign Up</h2>
+    <form id="signup-form">
+        <label for="username">Username:</label>
+        <input type="text" id="username" required>
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" required>
+
+        <label for="role">Choose Role:</label>
         <select id="role">
-            <option value="Player">Player</option>
-            <option value="Dungeon Master">Dungeon Master</option>
+            <option value="player">Player</option>
+            <option value="dungeon-master">Dungeon Master</option>
         </select>
-        <button onclick="signup()">Sign Up</button>
-        <p>Already have an account? <a href="login.html">Login here</a></p>
-    </div>
+
+        <button type="submit">Sign Up</button>
+    </form>
 
     <script>
-        function signup() {
+        // Load the header dynamically
+        fetch("header.html")
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById("header-container").innerHTML = data;
+            });
+
+        // Handle sign-up
+        document.getElementById("signup-form").addEventListener("submit", function(event) {
+            event.preventDefault();
+
             let username = document.getElementById("username").value;
             let password = document.getElementById("password").value;
             let role = document.getElementById("role").value;
 
             if (localStorage.getItem(username)) {
-                alert("Username already exists. Choose another one.");
-                return;
+                alert("Username already exists!");
+            } else {
+                localStorage.setItem(username, JSON.stringify({ password: password, role: role }));
+                alert("Account created successfully! You can now log in.");
+                window.location.href = "login.html";
             }
-
-            let user = { username, password, role };
-            localStorage.setItem(username, JSON.stringify(user));
-            alert("Sign-up successful! You can now log in.");
-            window.location.href = "login.html";
-        }
+        });
     </script>
 </body>
 </html>
