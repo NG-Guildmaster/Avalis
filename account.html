@@ -3,53 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Account - Avalis</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #a3c9f1;
-            text-align: center;
-        }
-        .container {
-            max-width: 400px;
-            margin: 50px auto;
-            padding: 20px;
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-        button {
-            width: 100%;
-            padding: 10px;
-            border: none;
-            border-radius: 5px;
-            background-color: red;
-            color: white;
-            cursor: pointer;
-            margin-top: 20px;
-        }
-    </style>
+    <title>My Account</title>
 </head>
 <body>
-    <div class="container">
-        <h2>Welcome, <span id="username"></span></h2>
-        <p>Your Role: <span id="role"></span></p>
-        <button onclick="logout()">Logout</button>
-    </div>
+    <!-- Header -->
+    <div id="header-container"></div>
+
+    <h2>My Account</h2>
+    <p id="account-info"></p>
+    <button id="upgrade-role" style="display: none;">Upgrade to Dungeon Master</button>
 
     <script>
+        // Load the header dynamically
+        fetch("header.html")
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById("header-container").innerHTML = data;
+            });
+
+        // Check logged-in user
         let loggedInUser = localStorage.getItem("loggedInUser");
         if (!loggedInUser) {
+            alert("Please log in first.");
             window.location.href = "login.html";
-        }
+        } else {
+            let user = JSON.parse(localStorage.getItem(loggedInUser));
+            document.getElementById("account-info").innerText = `Username: ${loggedInUser}\nRole: ${user.role}`;
 
-        let user = JSON.parse(localStorage.getItem(loggedInUser));
-        document.getElementById("username").innerText = user.username;
-        document.getElementById("role").innerText = user.role;
+            // Show the "Upgrade to Dungeon Master" button if the user is a Player
+            if (user.role === "player") {
+                document.getElementById("upgrade-role").style.display = "inline-block";
+            }
 
-        function logout() {
-            localStorage.removeItem("loggedInUser");
-            window.location.href = "login.html";
+            // Handle role upgrade
+            document.getElementById("upgrade-role").addEventListener("click", function() {
+                user.role = "dungeon-master";
+                localStorage.setItem(loggedInUser, JSON.stringify(user));
+                alert("Your account has been upgraded to Dungeon Master!");
+                window.location.reload();  // Refresh page to reflect changes
+            });
         }
     </script>
 </body>
