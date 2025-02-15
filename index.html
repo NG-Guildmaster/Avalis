@@ -49,21 +49,26 @@
             width: 100%;
         }
 
-        /* Title Section - Now Properly Sized & Positioned */
+        /* Title Section - Now Properly Sized & Centered */
         .title-container {
             background-color: #123456; /* Dark Blue */
             border-radius: 40px;
             padding: 15px 40px;
-            display: inline-block;
+            display: flex;
+            align-items: center; /* Vertically centers the text */
+            justify-content: center; /* Centers text horizontally */
             position: absolute;
-            top: 60px;
+            top: 50px;
             left: 50px;
-            max-width: 340px; /* Prevents stretching */
-            text-align: center;
+            width: fit-content; /* Only as wide as needed */
+            min-width: 340px; /* Ensures it doesn’t shrink too much */
+            max-width: 400px; /* Prevents stretching */
+            height: 70px; /* Ensures background is properly sized */
         }
 
+        /* Title Text - Ensures Proper Centering */
         .title {
-            font-size: 2.5em; /* Adjusted size */
+            font-size: 2.5em;
             font-weight: bold;
             color: gold;
             font-family: 'Trebuchet MS', sans-serif;
