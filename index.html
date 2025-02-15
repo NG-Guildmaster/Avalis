@@ -29,44 +29,72 @@
             font-family: 'Arial', sans-serif;
             background-color: #a3c9f1; /* Light Blue Background */
             color: #333;
-            text-align: center;
             margin: 0;
             padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
-        /* Title with Oval Background */
+        /* Title Section (Top-Left) */
         .title-container {
             background-color: #123456; /* Dark Blue */
-            border-radius: 50px;
-            padding: 30px;
+            border-radius: 40px;
+            padding: 15px 30px;
             display: inline-block;
-            margin-top: 20px;
+            margin: 20px;
+            position: absolute;
+            top: 20px;
+            left: 50px;
         }
 
         .title {
-            font-size: 3em;
+            font-size: 2.8em;
             font-weight: bold;
             color: gold;
             font-family: 'Trebuchet MS', sans-serif;
             margin: 0;
         }
 
-        /* Section Styling */
-        .section {
+        /* Main Content Layout */
+        .main-content {
+            display: flex;
+            justify-content: space-between;
             width: 90%;
             max-width: 1200px;
-            margin: 40px auto;
-            padding: 40px;
+            margin-top: 120px;
+        }
+
+        .intro {
+            width: 65%;
             background-color: #fff;
+            padding: 30px;
             border-radius: 10px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
 
-        .section h2 {
-            color: #333;
+        .booking {
+            width: 30%;
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .booking iframe {
+            width: 100%;
+            height: 500px;
+            border: none;
         }
 
         /* Buttons */
+        .button-container {
+            width: 90%;
+            max-width: 1200px;
+            text-align: center;
+            margin: 30px 0;
+        }
+
         .button {
             display: inline-block;
             background-color: #ffcc00;
@@ -75,19 +103,12 @@
             text-decoration: none;
             font-size: 1.2em;
             border-radius: 5px;
-            margin: 20px 10px;
+            margin: 10px;
             font-weight: bold;
         }
 
         .button:hover {
             background-color: #e6b800;
-        }
-
-        /* Google Calendar */
-        .calendar-container iframe {
-            width: 100%;
-            height: 500px;
-            border: none;
         }
 
         /* Footer */
@@ -97,6 +118,7 @@
             padding: 20px;
             text-align: center;
             margin-top: 30px;
+            width: 100%;
         }
 
         .footer-content {
@@ -108,34 +130,59 @@
         .footer-section {
             width: 45%;
         }
+
+        /* Responsive Design */
+        @media (max-width: 900px) {
+            .main-content {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .intro, .booking {
+                width: 90%;
+                margin-bottom: 20px;
+            }
+
+            .title-container {
+                position: static;
+                text-align: center;
+                width: fit-content;
+                margin: 20px auto;
+            }
+        }
     </style>
 </head>
 <body>
     <!-- Header -->
     <div id="header-container"></div>
 
-    <!-- Title with Oval Background -->
+    <!-- Title Section (Now on the Left) -->
     <div class="title-container">
         <h1 class="title">Welcome to Avalis</h1>
     </div>
 
-    <!-- About Avalis Section -->
-    <div class="section">
-        <h2>About Avalis</h2>
-        <p>Intro</p>
+    <!-- Main Content (Side Panels) -->
+    <div class="main-content">
+        <!-- Left Panel: About Avalis -->
+        <div class="intro">
+            <h2>About Avalis</h2>
+            <p>Intro</p>
+        </div>
+
+        <!-- Right Panel: Book a Session -->
+        <div class="booking">
+            <h2>Book a Session</h2>
+            <p>Use the calendar below to book your next session:</p>
+            <iframe src="https://calendar.google.com/calendar/embed?src=newcomersguild@gmail.com&ctz=Europe/London"></iframe>
+        </div>
     </div>
 
-    <!-- Book a Session Section -->
-    <div class="section calendar-container">
-        <h2>Book a Session</h2>
-        <p>Use the calendar below to book your next session:</p>
-        <iframe src="https://calendar.google.com/calendar/embed?src=newcomersguild@gmail.com&ctz=Europe/London"></iframe>
+    <!-- Button Section -->
+    <div class="button-container">
+        <a href="charactersheet.html" class="button">Go to Character Sheet</a>
+        <a href="signup.html" class="button">Sign Up</a>
+        <a href="login.html" class="button">Login</a>
     </div>
-
-    <!-- Buttons -->
-    <a href="charactersheet.html" class="button">Go to Character Sheet</a>
-    <a href="signup.html" class="button">Sign Up</a>
-    <a href="login.html" class="button">Login</a>
 
     <!-- Footer -->
     <div id="footer-container"></div>
