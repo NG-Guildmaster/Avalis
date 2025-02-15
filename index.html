@@ -7,24 +7,40 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #2d2d2d;
+            background-color: #a3c9f1; /* Light Blue Background */
             color: #fff;
             margin: 0;
             padding: 0;
             text-align: center;
         }
+        
+        /* Header */
+        header {
+            background-color: #1a73e8; /* Dark Blue for Header */
+            padding: 15px;
+            color: #fff;
+        }
+
+        header h1 {
+            margin: 0;
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 900px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+        
         h1 {
             color: #ffcc00;
             margin-top: 50px;
         }
+
         p {
             font-size: 1.2em;
         }
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 20px;
-        }
+
         .button {
             background-color: #ffcc00;
             color: #333;
@@ -34,21 +50,41 @@
             border-radius: 5px;
             margin-top: 20px;
         }
+        
         .button:hover {
             background-color: #e6b800;
         }
+
+        /* Footer */
         footer {
-            margin-top: 50px;
-            color: #bbb;
+            background-color: #1a73e8; /* Dark Blue for Footer */
+            color: #fff;
+            padding: 10px;
+            position: absolute;
+            width: 100%;
+            bottom: 0;
+        }
+
+        footer p {
+            margin: 0;
+            font-size: 1em;
         }
     </style>
 </head>
 <body>
+    <!-- Header -->
+    <header>
+        <h1>Avalis - D&D Campaign</h1>
+    </header>
+
+    <!-- Main Content -->
     <div class="container">
-        <h1>Welcome to Avalis</h1>
+        <h2>Welcome to Avalis</h2>
         <p>This is the homepage for my D&D campaign website. Stay tuned for more adventures!</p>
         <a href="#features" class="button">Explore the Features</a>
     </div>
+
+    <!-- Footer -->
     <footer>
         <p>Created with ❤️ for Avalis D&D Campaign</p>
     </footer>
