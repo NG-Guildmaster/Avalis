@@ -8,20 +8,28 @@
     <!-- Firebase SDKs -->
     <script type="module">
       import { initializeApp } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-app.js";
-      import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-analytics.js";
+      import { getAuth } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-auth.js";
+      import { getDatabase } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-database.js";
 
       const firebaseConfig = {
         apiKey: "AIzaSyBZU3oUaCNjMVVTTwXBqaUH0XYY5M9K7z0",
         authDomain: "avalis-9c595.firebaseapp.com",
         projectId: "avalis-9c595",
-        storageBucket: "avalis-9c595.firebasestorage.app",
+        storageBucket: "avalis-9c595.appspot.com",
         messagingSenderId: "1014604630131",
         appId: "1:1014604630131:web:b4b9fc13163834ff7d4206",
-        measurementId: "G-Q7D9PP4KFH"
+        measurementId: "G-Q7D9PP4KFH",
+        databaseURL: "https://avalis-9c595-default-rtdb.europe-west1.firebasedatabase.app/"
       };
 
+      // Initialize Firebase
       const app = initializeApp(firebaseConfig);
-      const analytics = getAnalytics(app);
+      const auth = getAuth(app);
+      const database = getDatabase(app);
+
+      // Expose Firebase globally for debugging
+      window.firebaseAuth = auth;
+      window.firebaseDatabase = database;
     </script>
 
     <style>
@@ -36,16 +44,15 @@
             align-items: center;
         }
 
-        /* Title Section (Top-Left) */
+        /* Title Section (Top-Left, Adjusted Background Size) */
         .title-container {
             background-color: #123456; /* Dark Blue */
             border-radius: 40px;
-            padding: 15px 30px;
+            padding: 15px 50px; /* Adjusted width */
             display: inline-block;
-            margin: 20px;
-            position: absolute;
-            top: 20px;
-            left: 50px;
+            margin-top: 20px;
+            position: relative;
+            left: 0;
         }
 
         .title {
@@ -56,13 +63,13 @@
             margin: 0;
         }
 
-        /* Main Content Layout */
+        /* Main Content Layout (Side Panels) */
         .main-content {
             display: flex;
             justify-content: space-between;
             width: 90%;
             max-width: 1200px;
-            margin-top: 120px;
+            margin-top: 100px;
         }
 
         .intro {
@@ -156,7 +163,7 @@
     <!-- Header -->
     <div id="header-container"></div>
 
-    <!-- Title Section (Now on the Left) -->
+    <!-- Title Section (Now Correctly Positioned) -->
     <div class="title-container">
         <h1 class="title">Welcome to Avalis</h1>
     </div>
@@ -201,6 +208,10 @@
             .then(data => {
                 document.getElementById("footer-container").innerHTML = data;
             });
+
+        // Debugging: Check Firebase is Loaded
+        console.log("🔍 Firebase Auth:", window.firebaseAuth);
+        console.log("🔍 Firebase Database:", window.firebaseDatabase);
     </script>
 </body>
 </html>
