@@ -75,7 +75,7 @@
             <label for="attack">Attack</label>
             <input type="number" id="attack" name="attack" placeholder="Enter your Attack bonus" required>
 
-            <button type="button" onclick="saveCharacter()">Save Character</button>
+            <button type="button" id="saveBtn">Save Character</button>
         </form>
 
         <h3>Saved Character</h3>
@@ -86,7 +86,9 @@
     </div>
 
     <script>
-        function saveCharacter() {
+        document.getElementById("saveBtn").addEventListener("click", function(event) {
+            event.preventDefault(); // Prevents form submission
+
             const name = document.getElementById("name").value;
             const charClass = document.getElementById("class").value;
             const hp = document.getElementById("hp").value;
@@ -103,7 +105,7 @@
             document.getElementById("savedClass").innerText = charClass;
             document.getElementById("savedHP").innerText = hp;
             document.getElementById("savedAttack").innerText = attack;
-        }
+        });
 
         // Load saved character when the page loads
         window.onload = function() {
