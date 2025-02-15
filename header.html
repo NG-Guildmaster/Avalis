@@ -1,24 +1,104 @@
-<div id="navbar">
+<nav>
     <a href="index.html">Home</a>
-    <a href="signup.html">Sign Up</a>
-    <a href="login.html">Login</a>
-    <a href="account.html">My Account</a>
-</div>
+    <a href="login.html" id="loginButton">Login</a>
+
+    <!-- Account Dropdown (Hidden by Default) -->
+    <div id="accountDropdown" class="dropdown" style="display: none;">
+        <button class="dropbtn">My Account ▼</button>
+        <div class="dropdown-content">
+            <a href="my-character.html">My Character</a>
+            <a href="#" id="logoutButton">Logout</a>
+        </div>
+    </div>
+
+    <!-- DM Dashboard (Hidden by Default) -->
+    <a href="dm-dashboard.html" id="dmLink" style="display: none;">DM Dashboard</a>
+</nav>
 
 <style>
-    #navbar {
-        background-color: #333;
-        overflow: hidden;
+    nav {
+        background: #333;
         padding: 10px;
         text-align: center;
     }
-    #navbar a {
+    nav a, .dropbtn {
         color: white;
         text-decoration: none;
-        padding: 14px 20px;
+        padding: 10px 15px;
         display: inline-block;
     }
-    #navbar a:hover {
-        background-color: #575757;
+    .dropdown {
+        display: inline-block;
+        position: relative;
+    }
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: white;
+        min-width: 150px;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+        z-index: 1;
+        text-align: left;
+    }
+    .dropdown-content a {
+        color: black;
+        padding: 10px;
+        display: block;
+        text-decoration: none;
+    }
+    .dropdown-content a:hover {
+        background-color: #ddd;
+    }
+    .dropdown:hover .dropdown-content {
+        display: block;
     }
 </style>
+
+<script type="module">
+    import { getAuth, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-auth.js";
+
+    const auth = getAuth();
+
+    function updateUI(user) {
+        const loginButton = document.getElementById("loginButton");
+        const accountDropdown = document.getElementById("accountDropdown");
+        const dmLink = document.getElementById("dmLink");
+
+        if (user) {
+            const userRole = localStorage.getItem("userRole");
+            console.log("✅ User is logged in. Role:", userRole);
+
+            loginButton.style.display = "none";
+            accountDropdown.style.display = "inline-block";
+
+            if (userRole === "dungeon-master") {
+                dmLink.style.display = "inline"; // Show DM Dashboard
+            } else {
+                dmLink.style.display = "none"; // Hide DM Dashboard for players
+            }
+        } else {
+            console.log("❌ User is not logged in.");
+            loginButton.style.display = "inline";
+            accountDropdown.style.display = "none";
+            dmLink.style.display = "none";
+        }
+    }
+
+    // Monitor auth state changes
+    onAuthStateChanged(auth, (user) => {
+        updateUI(user);
+    });
+
+    // Logout function
+    document.getElementById("logoutButton").addEventListener("click", () => {
+        signOut(auth).then(() => {
+            console.log("✅ User logged out.");
+            localStorage.removeItem("userRole");
+            alert("Logout successful!");
+            window.location.href = "login.html";
+        }).catch((error) => {
+            console.error("❌ Logout error:", error);
+            alert("Logout failed: " + error.message);
+        });
+    });
+</script>
