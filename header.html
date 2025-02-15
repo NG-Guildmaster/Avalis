@@ -2,12 +2,12 @@
     <a href="index.html">Home</a>
     <a href="login.html" id="loginButton">Login</a>
 
-    <!-- Account Dropdown (Hidden by Default) -->
-    <div id="accountDropdown" class="dropdown" style="display: none;">
-        <button class="dropbtn">My Account ▼</button>
+    <!-- My Account Dropdown (Always Visible) -->
+    <div id="accountDropdown" class="dropdown">
+        <button class="dropbtn" id="accountButton">My Account ▼</button>
         <div class="dropdown-content">
             <a href="my-character.html">My Character</a>
-            <a href="#" id="logoutButton">Logout</a>
+            <a href="#" id="logoutButton" style="display: none;">Logout</a>
         </div>
     </div>
 
@@ -26,6 +26,10 @@
         text-decoration: none;
         padding: 10px 15px;
         display: inline-block;
+        background: none;
+        border: none;
+        font-size: 16px;
+        cursor: pointer;
     }
     .dropdown {
         display: inline-block;
@@ -62,24 +66,23 @@
     document.addEventListener("DOMContentLoaded", () => {
         console.log("✅ DOM fully loaded. Checking authentication state...");
 
-        // Ensure elements exist before trying to modify them
         const loginButton = document.getElementById("loginButton");
-        const accountDropdown = document.getElementById("accountDropdown");
-        const dmLink = document.getElementById("dmLink");
+        const accountButton = document.getElementById("accountButton");
         const logoutButton = document.getElementById("logoutButton");
+        const dmLink = document.getElementById("dmLink");
 
-        if (!loginButton || !accountDropdown || !dmLink || !logoutButton) {
-            console.error("❌ UI elements not found! Script execution failed.");
+        if (!loginButton || !accountButton || !logoutButton || !dmLink) {
+            console.error("❌ UI elements not found!");
             return;
         }
 
         function updateUI(user) {
             if (user) {
-                const userRole = localStorage.getItem("userRole") || "player"; // Default to player
+                const userRole = localStorage.getItem("userRole") || "player";
                 console.log("✅ User detected. Role:", userRole);
 
                 loginButton.style.display = "none"; // Hide login button
-                accountDropdown.style.display = "inline-block"; // Show My Account dropdown
+                logoutButton.style.display = "block"; // Show logout option
 
                 if (userRole === "dungeon-master") {
                     dmLink.style.display = "inline"; // Show DM Dashboard
@@ -87,14 +90,39 @@
                     dmLink.style.display = "none"; // Hide DM Dashboard for regular players
                 }
             } else {
-                console.log("❌ No user detected. Resetting UI.");
-                loginButton.style.display = "inline";
-                accountDropdown.style.display = "none";
-                dmLink.style.display = "none";
+                console.log("❌ No user detected.");
+                loginButton.style.display = "inline"; // Show login button
+                logoutButton.style.display = "none"; // Hide logout option
+                dmLink.style.display = "none"; // Hide DM Dashboard
             }
         }
 
         // Monitor authentication state changes
         onAuthStateChanged(auth, (user) => {
             console.log("🔄 Auth state changed. Checking user...");
-            updateUI(user
+            updateUI(user);
+        });
+
+        // Redirect to login if My Account is clicked while not logged in
+        accountButton.addEventListener("click", () => {
+            if (!auth.currentUser) {
+                console.log("🔄 Redirecting to login...");
+                window.location.href = "login.html";
+            }
+        });
+
+        // Logout function
+        logoutButton.addEventListener("click", () => {
+            signOut(auth).then(() => {
+                console.log("✅ User logged out.");
+                localStorage.removeItem("userRole");
+                localStorage.removeItem("userEmail");
+                alert("Logout successful!");
+                window.location.href = "login.html";
+            }).catch((error) => {
+                console.error("❌ Logout error:", error);
+                alert("Logout failed: " + error.message);
+            });
+        });
+    });
+</script>
