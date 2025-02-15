@@ -7,7 +7,6 @@
 
     <!-- Firebase SDKs -->
     <script type="module">
-      // Import the functions you need from the SDKs you need
       import { initializeApp } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-app.js";
       import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-analytics.js";
       // TODO: Add SDKs for Firebase products that you want to use
@@ -29,9 +28,57 @@
       const app = initializeApp(firebaseConfig);
       const analytics = getAnalytics(app);
     </script>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #a3c9f1; /* Light Blue Background */
+            color: #333;
+            text-align: center;
+        }
+        .container {
+            max-width: 900px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        .button {
+            display: inline-block;
+            background-color: #ffcc00;
+            color: #333;
+            padding: 12px 25px;
+            text-decoration: none;
+            font-size: 1.2em;
+            border-radius: 5px;
+            margin: 20px 10px;
+            font-weight: bold;
+        }
+        .button:hover {
+            background-color: #e6b800;
+        }
+    </style>
 </head>
 <body>
-    <h1>Welcome to Avalis</h1>
-    <p>This is the homepage.</p>
+    <!-- Header -->
+    <div id="header-container"></div>
+
+    <div class="container">
+        <h1>Welcome to Avalis</h1>
+        <p>This is the homepage.</p>
+        <a href="charactersheet.html" class="button">Go to Character Sheet</a>
+        <a href="signup.html" class="button">Sign Up</a>
+        <a href="login.html" class="button">Login</a>
+    </div>
+
+    <script>
+        // Load the header dynamically
+        fetch("header.html")
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById("header-container").innerHTML = data;
+            });
+    </script>
 </body>
 </html>
