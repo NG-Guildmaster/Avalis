@@ -39,37 +39,39 @@
             color: #333;
             margin: 0;
             padding: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: left;
         }
 
-        /* Title Section (Top-Left, Adjusted Background Size) */
+        /* Header - Now Full Width */
+        #header-container {
+            width: 100%;
+        }
+
+        /* Title Section - Properly Positioned */
         .title-container {
             background-color: #123456; /* Dark Blue */
             border-radius: 40px;
-            padding: 15px 50px; /* Adjusted width */
+            padding: 20px 40px;
             display: inline-block;
-            margin-top: 20px;
-            position: relative;
-            left: 0;
+            position: absolute;
+            top: 50px;
+            left: 50px;
         }
 
         .title {
-            font-size: 2.8em;
+            font-size: 3em;
             font-weight: bold;
             color: gold;
-            font-family: 'Old Roman', sans-serif;
+            font-family: 'Trebuchet MS', sans-serif;
             margin: 0;
         }
 
-        /* Main Content Layout (Side Panels) */
+        /* Main Content Layout */
         .main-content {
             display: flex;
             justify-content: space-between;
             width: 90%;
             max-width: 1200px;
-            margin-top: 100px;
+            margin: 150px auto 0 auto;
         }
 
         .intro {
@@ -99,7 +101,7 @@
             width: 90%;
             max-width: 1200px;
             text-align: center;
-            margin: 30px 0;
+            margin: 30px auto;
         }
 
         .button {
@@ -163,7 +165,7 @@
     <!-- Header -->
     <div id="header-container"></div>
 
-    <!-- Title Section (Now Correctly Positioned) -->
+    <!-- Title Section (Now Correctly Positioned & Inside Background) -->
     <div class="title-container">
         <h1 class="title">Welcome to Avalis</h1>
     </div>
@@ -189,6 +191,8 @@
         <a href="charactersheet.html" class="button">Go to Character Sheet</a>
         <a href="signup.html" class="button">Sign Up</a>
         <a href="login.html" class="button">Login</a>
+        <a href="lore.html" class="button">Lore</a>
+        <a href="guide.html" class="button">Guide</a>
     </div>
 
     <!-- Footer -->
