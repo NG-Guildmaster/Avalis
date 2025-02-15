@@ -57,33 +57,64 @@
     
     <div class="container">
         <h2>Enter Your Character Info</h2>
-        <form action="#" method="post">
-            <!-- Character Name -->
+        <form id="characterForm">
             <label for="name">Character Name</label>
             <input type="text" id="name" name="name" placeholder="Enter your character's name" required>
 
-            <!-- Class -->
             <label for="class">Character Class</label>
             <select id="class" name="class">
                 <option value="fighter">Fighter</option>
                 <option value="wizard">Wizard</option>
                 <option value="cleric">Cleric</option>
                 <option value="rogue">Rogue</option>
-                <!-- Add other classes as needed -->
             </select>
 
-            <!-- HP -->
             <label for="hp">Hit Points</label>
             <input type="number" id="hp" name="hp" placeholder="Enter your HP" required>
 
-            <!-- Attack -->
             <label for="attack">Attack</label>
             <input type="number" id="attack" name="attack" placeholder="Enter your Attack bonus" required>
 
-            <!-- Save Button -->
-            <button type="submit">Save Character</button>
+            <button type="button" onclick="saveCharacter()">Save Character</button>
         </form>
+
+        <h3>Saved Character</h3>
+        <p><strong>Name:</strong> <span id="savedName">None</span></p>
+        <p><strong>Class:</strong> <span id="savedClass">None</span></p>
+        <p><strong>HP:</strong> <span id="savedHP">None</span></p>
+        <p><strong>Attack:</strong> <span id="savedAttack">None</span></p>
     </div>
+
+    <script>
+        function saveCharacter() {
+            const name = document.getElementById("name").value;
+            const charClass = document.getElementById("class").value;
+            const hp = document.getElementById("hp").value;
+            const attack = document.getElementById("attack").value;
+
+            // Save to local storage
+            localStorage.setItem("characterName", name);
+            localStorage.setItem("characterClass", charClass);
+            localStorage.setItem("characterHP", hp);
+            localStorage.setItem("characterAttack", attack);
+
+            // Display saved data
+            document.getElementById("savedName").innerText = name;
+            document.getElementById("savedClass").innerText = charClass;
+            document.getElementById("savedHP").innerText = hp;
+            document.getElementById("savedAttack").innerText = attack;
+        }
+
+        // Load saved character when the page loads
+        window.onload = function() {
+            if (localStorage.getItem("characterName")) {
+                document.getElementById("savedName").innerText = localStorage.getItem("characterName");
+                document.getElementById("savedClass").innerText = localStorage.getItem("characterClass");
+                document.getElementById("savedHP").innerText = localStorage.getItem("characterHP");
+                document.getElementById("savedAttack").innerText = localStorage.getItem("characterAttack");
+            }
+        }
+    </script>
 
 </body>
 </html>
