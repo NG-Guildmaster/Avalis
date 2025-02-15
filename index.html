@@ -34,50 +34,36 @@
             padding: 0;
         }
 
-        /* Welcome Title */
+        /* Title with Oval Background */
+        .title-container {
+            background-color: #123456; /* Dark Blue */
+            border-radius: 50px;
+            padding: 30px;
+            display: inline-block;
+            margin-top: 20px;
+        }
+
         .title {
             font-size: 3em;
             font-weight: bold;
             color: gold;
-            margin: 20px 0;
             font-family: 'Trebuchet MS', sans-serif;
+            margin: 0;
         }
 
-        /* Main Layout */
-        .container {
-            max-width: 900px;
-            margin: 20px auto;
-            padding: 20px;
+        /* Section Styling */
+        .section {
+            width: 90%;
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 40px;
             background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
 
-        /* Intro & Booking Section */
-        .content-wrapper {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            text-align: left;
-            padding: 20px;
-        }
-
-        .intro {
-            width: 60%;
-        }
-
-        .booking {
-            width: 35%;
-            background-color: #f8f9fa;
-            padding: 15px;
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        }
-
-        .booking iframe {
-            width: 100%;
-            height: 400px;
-            border: none;
+        .section h2 {
+            color: #333;
         }
 
         /* Buttons */
@@ -95,6 +81,13 @@
 
         .button:hover {
             background-color: #e6b800;
+        }
+
+        /* Google Calendar */
+        .calendar-container iframe {
+            width: 100%;
+            height: 500px;
+            border: none;
         }
 
         /* Footer */
@@ -121,30 +114,28 @@
     <!-- Header -->
     <div id="header-container"></div>
 
-    <!-- Welcome Title -->
-    <h1 class="title">Welcome to Avalis</h1>
-
-    <!-- Main Content -->
-    <div class="container">
-        <div class="content-wrapper">
-            <!-- Avalis Introduction -->
-            <div class="intro">
-                <h2>About Avalis</h2>
-                <p>Intro</p>
-            </div>
-
-            <!-- Book a Session Section -->
-            <div class="booking">
-                <h2>Book a Session</h2>
-                <p>Use the calendar below to book your next session:</p>
-                <iframe src="https://calendar.google.com/calendar/embed?src=newcomersguild@gmail.com&ctz=Europe/London"></iframe>
-            </div>
-        </div>
-
-        <a href="charactersheet.html" class="button">Go to Character Sheet</a>
-        <a href="signup.html" class="button">Sign Up</a>
-        <a href="login.html" class="button">Login</a>
+    <!-- Title with Oval Background -->
+    <div class="title-container">
+        <h1 class="title">Welcome to Avalis</h1>
     </div>
+
+    <!-- About Avalis Section -->
+    <div class="section">
+        <h2>About Avalis</h2>
+        <p>Intro</p>
+    </div>
+
+    <!-- Book a Session Section -->
+    <div class="section calendar-container">
+        <h2>Book a Session</h2>
+        <p>Use the calendar below to book your next session:</p>
+        <iframe src="https://calendar.google.com/calendar/embed?src=newcomersguild@gmail.com&ctz=Europe/London"></iframe>
+    </div>
+
+    <!-- Buttons -->
+    <a href="charactersheet.html" class="button">Go to Character Sheet</a>
+    <a href="signup.html" class="button">Sign Up</a>
+    <a href="login.html" class="button">Login</a>
 
     <!-- Footer -->
     <div id="footer-container"></div>
